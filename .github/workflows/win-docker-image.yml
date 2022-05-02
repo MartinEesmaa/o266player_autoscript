@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build -t o266player --force-rm .
+    - name: Copy docker inside ZIP file into there.
+      run: docker run --rm o266player cat /O266player/win32/vlc-3.0.11.1-win64.zip > vlc-3.0.11.1-win64.zip
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        name: vlc-3.0.11-1-win64
+        path: vlc-3.0.11-1-win64.zip
