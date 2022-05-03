@@ -1,0 +1,35 @@
+name: Mac OS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Copy libo266 into /usr/local
+      run: cp o266dec-macos.7z /usr/local && 7z x o266dec-macos.7z
+    - name: Install libo266 on Mac OS
+      run: sudo ./install.sh
+    - name: Create temp folder and git clone o266player repository
+      run: cd /tmp && git clone https://github.com/TencentCloud/o266player.git && cd o266player
+    - name: Build VLC (with o266player plugin)
+      run: mkdir build && JDK_HOME="" PKG_CONFIG_LIBDIR="/usr/local/lib/pkgconfig:$PWD/../extras/tools/build/lib/pkgconfig" ../extras/package/macosx/build.sh -c -j 4
+    - name: Zip Release
+      uses: TheDoctor0/zip-release@0.6.2
+      with:
+        filename: MACOSBUILD.7z
+        path: /tmp/*
+        type: 7z
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        name: MACOS_VLC
+        path: MACOSBUILD.7z
