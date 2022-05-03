@@ -17,7 +17,7 @@ jobs:
     - name: Copy libo266 into /usr/local
       run: cp o266dec-macos.7z /tmp && cd /tmp && 7z x o266dec-macos.7z
     - name: Install libo266 on Mac OS
-      run: sudo ./install.sh
+      run: ./install.sh
     - name: Git clone o266player repository
       run: git clone https://github.com/TencentCloud/o266player.git && cd o266player
     - name: Build VLC (with o266player plugin)
