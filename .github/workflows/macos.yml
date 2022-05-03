@@ -15,13 +15,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Copy libo266 into /usr/local
-      run: cp o266dec-macos.7z /tmp && cd /tmp && 7z x o266dec-macos.7z
+      run: 7z x o266dec-macos.7z
     - name: Install libo266 on Mac OS
-      run: ./install.sh
+      run: chmod +x ./install.sh && ./install.sh
     - name: Git clone o266player repository
       run: git clone https://github.com/TencentCloud/o266player.git && cd o266player
     - name: Build VLC (with o266player plugin)
-      run: mkdir build && JDK_HOME="" PKG_CONFIG_LIBDIR="/tmp/local/lib/pkgconfig:$PWD/../extras/tools/build/lib/pkgconfig" ../extras/package/macosx/build.sh -c -j 4
+      run: mkdir build && JDK_HOME="" PKG_CONFIG_LIBDIR="/Users/runner/work/_temp/local/lib/pkgconfig:$PWD/../extras/tools/build/lib/pkgconfig" ../extras/package/macosx/build.sh -c -j 4
     - name: Zip Release
       uses: TheDoctor0/zip-release@0.6.2
       with:
