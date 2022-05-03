@@ -19,7 +19,7 @@ jobs:
     - name: Install libo266 on Mac OS
       run: chmod +x ./install.sh && ./install.sh
     - name: Git clone o266player repository
-      run: git clone https://github.com/TencentCloud/o266player.git && chmod -R 111 /Users/runner/work/_temp/local/o266player/ && cd o266player
+      run: git clone https://github.com/TencentCloud/o266player.git && chmod -R 111 /o266player && cd o266player
     - name: Build VLC (with o266player plugin)
       run: mkdir build && JDK_HOME="" PKG_CONFIG_LIBDIR="/usr/local/lib/pkgconfig:$PWD/../extras/tools/build/lib/pkgconfig" ../extras/package/macosx/build.sh -c -j 4
     - name: Zip Release
